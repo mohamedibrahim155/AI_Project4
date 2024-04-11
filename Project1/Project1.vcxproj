@@ -141,10 +141,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\glad\src\glad.c" />
+    <ClCompile Include="src\AI\State\BaseEnemyState.cpp" />
+    <ClCompile Include="src\AI\Enemy.cpp" />
     <ClCompile Include="src\Grass\GrassMesh.cpp" />
-    <ClCompile Include="src\SceneManager\Scenes\SceneFour.cpp" />
-    <ClCompile Include="src\SceneManager\Scenes\SceneThree.cpp" />
-    <ClCompile Include="src\SceneManager\Scenes\SceneTwo.cpp" />
     <ClCompile Include="src\Mesh\MeshInstance.cpp" />
     <ClCompile Include="src\SceneManager\Scenes\SceneOne.cpp" />
     <ClCompile Include="src\SceneManager\BaseScene.cpp" />
@@ -248,11 +247,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\stb_image.h" />
+    <ClInclude Include="src\AI\State\BaseEnemyState.h" />
+    <ClInclude Include="src\AI\Enemy.h" />
     <ClInclude Include="src\Grass\GrassMesh.h" />
-    <ClInclude Include="src\SceneManager\Scenes\SceneFour.h" />
-    <ClInclude Include="src\SceneManager\Scenes\SceneThree.h" />
-    <ClInclude Include="src\SceneManager\Scenes\SceneTwo.h" />
     <ClInclude Include="src\Mesh\MeshInstance.h" />
+    <ClInclude Include="src\AI\State\eEnemyState.h" />
     <ClInclude Include="src\SceneManager\Scenes\SceneOne.h" />
     <ClInclude Include="src\SceneManager\BaseScene.h" />
     <ClInclude Include="src\SceneManager\SceneManager.h" />

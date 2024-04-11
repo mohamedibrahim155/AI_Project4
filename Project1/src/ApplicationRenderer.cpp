@@ -1,9 +1,7 @@
 #include"ApplicationRenderer.h"
 
 #include "SceneManager/Scenes/SceneOne.h"
-#include "SceneManager/Scenes/SceneTwo.h"
-#include "SceneManager/Scenes/SceneThree.h"
-#include "SceneManager/Scenes/SceneFour.h"
+
 
 ApplicationRenderer::ApplicationRenderer()
 {
@@ -220,11 +218,8 @@ void ApplicationRenderer::Start()
 {
 
     BaseScene* sceneOne = new SceneOne("SceneOne");
-    BaseScene* sceneTwo = new SceneTwo("SceneTwo");
-    BaseScene* sceneThree = new SceneThree("SceneThree");
-    BaseScene* sceneFour = new SceneFour("SceneFour");
 
-    SceneManager::GetInstance().OnChangeScene("SceneFour");
+    SceneManager::GetInstance().OnChangeScene("SceneOne");
 }
 
 
