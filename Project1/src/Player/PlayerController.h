@@ -38,6 +38,7 @@ public:
 	 void SetPlayerState(ePlayerState state);
 
 	 float playerMoveSpeed = 2.5f;
+	 bool showDebug = false;
 
 	 BaseState* GetCurrentState() const;
 	 BaseState* GetState(ePlayerState state);
@@ -53,5 +54,6 @@ private:
 	std::unordered_map<ePlayerState, BaseState*> listOfPlayerStates;
 
 	ApplicationRenderer* application;
+
 };
 

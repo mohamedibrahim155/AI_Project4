@@ -110,6 +110,8 @@ void CameraController::OnDestroy()
 
 void CameraController::Render()
 {
+	if (!playerController->showDebug) return;
+
 	GraphicsRender::GetInstance().DrawSphere(playerPosition, 0.2f, glm::vec4(1, 0, 0, 1), true);
 }
 

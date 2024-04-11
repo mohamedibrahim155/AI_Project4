@@ -117,6 +117,8 @@ void PlayerController::Update(float deltaTime)
 
 void PlayerController::Render()
 {
+    if (!showDebug) return;
+
     PhysicsSkinMeshRenderer::Render();
 }
 
@@ -215,6 +217,8 @@ void PlayerController::DrawPlayerControllerProperties()
     {
         pair.second->DrawStateProperties();
     }
+
+    DrawBoolImGui("Show Debug", showDebug);
 
     ImGui::TreePop();
 

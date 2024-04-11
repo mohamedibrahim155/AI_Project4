@@ -483,6 +483,10 @@ void ApplicationRenderer::ProcessInput(GLFWwindow* window)
              {
                  ChangeCursorState(eCursorState::VISIBLE);
              }
+             if (key == GLFW_KEY_K)
+             {
+                 ChangeCursorState(eCursorState::LOCKED);
+             }
              
              InputManager::GetInstance().OnKeyPressed(key);
          }
