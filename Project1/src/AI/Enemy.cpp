@@ -45,7 +45,7 @@ Enemy::Enemy(PlayerController* player)
 void Enemy::DrawProperties()
 {
     PhysicsSkinMeshRenderer::DrawProperties();
-    EnemyProperties();
+   // EnemyProperties();
 }
 
 void Enemy::SceneDraw()
