@@ -16,16 +16,16 @@ enum class EasingType
 struct PositionKeyFrame
 {
 	PositionKeyFrame() {};
-	PositionKeyFrame(const glm::vec3& _position, double _time, EasingType _easeType = EasingType::Linear) :
+	PositionKeyFrame(const glm::vec3& _position, float _time, EasingType _easeType = EasingType::Linear) :
 		position(_position),
 		time(_time),
 		easeType(_easeType)
 	{
 	}
 
-	glm::vec3 position;
-	EasingType easeType;
-	double time;
+	glm::vec3 position{ 0 };
+	EasingType easeType = EasingType::Linear;
+	float time = 0;
 
 };
 
@@ -34,14 +34,14 @@ struct PositionKeyFrame
 struct RotationKeyFrame
 {
 	RotationKeyFrame() {}
-	RotationKeyFrame(const glm::quat& _rotation, double _time, EasingType _easeType = EasingType::Linear) :
+	RotationKeyFrame(const glm::quat& _rotation, float _time, EasingType _easeType = EasingType::Linear) :
 		rotation(_rotation),
 		time(_time),
 		easeType(_easeType)
 	{
 	}
 
-	RotationKeyFrame(const glm::vec3& _rotation, double _time, EasingType _easeType = EasingType::Linear) :
+	RotationKeyFrame(const glm::vec3& _rotation, float _time, EasingType _easeType = EasingType::Linear) :
 		rotation_vec3(_rotation),
 		time(_time),
 		easeType(_easeType)
@@ -50,8 +50,8 @@ struct RotationKeyFrame
 
 	glm::quat rotation = glm::quat(1, 0, 0, 1);
 	glm::vec3 rotation_vec3 = glm::vec3(0);
-	EasingType easeType;
-	double time;
+	EasingType easeType = EasingType::Linear;
+	float time = 0;
 
 };
 
@@ -60,30 +60,30 @@ struct RotationKeyFrame
 struct ScaleKeyFrame
 {
 	ScaleKeyFrame() {}
-	ScaleKeyFrame(const glm::vec3& _scale, double _time, EasingType _easeType = EasingType::Linear) :
+	ScaleKeyFrame(const glm::vec3& _scale, float _time, EasingType _easeType = EasingType::Linear) :
 		scale(_scale),
 		time(_time),
 		easeType(_easeType)
 	{
 	}
 
-	glm::vec3 scale;
-	EasingType easeType;
-	double time;
+	glm::vec3 scale{ 0 };
+	EasingType easeType = EasingType::Linear;
+	float time = 0;
 
 };
 
 struct ColorKeyFrame
 {
-	ColorKeyFrame(const glm::vec3& _color, double _time, EasingType _easeType = EasingType::Linear) :
+	ColorKeyFrame(const glm::vec3& _color, float _time, EasingType _easeType = EasingType::Linear) :
 		color(_color),
 		time(_time),
 		easeType(_easeType)
 	{}
 
 	glm::vec3 color;
-	EasingType easeType;
-	double time;
+	EasingType easeType = EasingType::Linear;
+	float time;
 };
 
 struct EventKeyFrame

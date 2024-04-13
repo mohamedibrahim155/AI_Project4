@@ -7,12 +7,12 @@
 PlayerController::PlayerController()
 {
     LoadModel("Models/Character/X Bot.fbx");
-    transform.SetScale(glm::vec3(0.01f));
 
     LoadAnimation("Models/Character/Idle.fbx", "Idle");
     LoadAnimation("Models/Character/Running.fbx", "Run");
 
     transform.SetRotation(glm::vec3(0, 180, 0));
+    transform.SetScale(glm::vec3(0.01f));
 
     GraphicsRender::GetInstance().AddModelAndShader(this, GraphicsRender::GetInstance().boneAnimationShader);
 

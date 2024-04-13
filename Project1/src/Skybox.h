@@ -18,7 +18,7 @@ public:
 
 	void AssignSkyboxShader(Shader* shader);
 
-	Texture* skyboxTexture = new Texture();
+	Texture* skyboxTexture;
 
 private:
 	

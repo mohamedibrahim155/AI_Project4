@@ -36,9 +36,9 @@ public:
     void PlayAnimation(const std::string& animationName);
     void PlayBlendAnimation(const std::string& animationName, float blendTime);
     int& GetBoneCount() { return boneCount; }
-    std::map<std::string, BoneInfo>& GetBoneMap() { return boneInfoMap; }
+    std::unordered_map<std::string, BoneInfo>& GetBoneMap() { return boneInfoMap; }
 
-    BoneNode* GenerateBoneHierarchy(aiNode* ainode, const int depth = 0);
+    BoneNode* GenerateBoneHierarchy(aiNode* ainode);
     BoneNode* CreateNode(aiNode* node);
 
     glm::vec3 UpdateTranslation(std::vector<PositionKeyFrame>& listOfKeyFrames, float time);
@@ -76,10 +76,10 @@ private:
 
     bool enableAnimationControl = false;
 
-    std::map<std::string, BoneInfo> boneInfoMap;
-    std::map<std::string, BoneNode*> boneNodeMap;
+    std::unordered_map<std::string, BoneInfo> boneInfoMap;
+    std::unordered_map<std::string, BoneNode*> boneNodeMap;
     std::vector<BoneInfo> listOfBoneInfo;
-    std::map<std::string, int> boneIDMap;
+    std::unordered_map<std::string, int> boneIDMap;
     std::unordered_map<std::string, SkeletonAnim*> listOfAnimation;
 
     glm::mat4 GlobalInverseTransformation;

@@ -17,7 +17,7 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
-uniform bool isBones;
+//uniform bool isBones;
 uniform mat4 BoneMatrices[MAX_BONES];
 
 // function prototypes
@@ -30,7 +30,7 @@ void main()
     FragPosition = aPos;
 
 	vec4 totalPosition = vec4(FragPosition,1);
-    if (isBones)
+   // if (isBones)
 	{
 		//ex_BoneId = in_BoneIds;
 		mat4 boneTransform = BoneMatrices[int(aBoneID[0])] * aBoneWeight[0];

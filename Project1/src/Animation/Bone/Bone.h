@@ -9,7 +9,7 @@
 
 struct BoneInfo
 {
-	int id;
+	int id =0;
 	glm::mat4 boneOffset;				// Offset from the parent bone/node
 	glm::mat4 finalTransformation;		// Calculated transformation used for rendering
 	glm::mat4 globalTransformation;		// used for the bone hierarchy transformation calculations when animating
@@ -19,8 +19,8 @@ struct BoneNode
 {
 	BoneNode(const std::string& name) : name(name) { }
 	std::string name;
-	int index;               // bone UID
-	glm::mat4 transformation;
+	int index = 0;               // bone UID
+	glm::mat4 transformation{0};
 	std::vector<BoneNode*> children;
 };
 
@@ -35,8 +35,8 @@ struct BoneWeightInfo
 		boneID = glm::vec4(0);
 		boneWeight = glm::vec4(0);
 	}
-	glm::vec4 boneID;
-	glm::vec4 boneWeight;
+	glm::vec4 boneID{ 0 };
+	glm::vec4 boneWeight{ 0 };
 };
 
 void AssimpToGLM(const aiMatrix4x4& a, glm::mat4& g);
@@ -53,11 +53,11 @@ struct NodeAnim
 
 struct SkeletonAnim
 {
-	SkeletonAnim() {}
+	SkeletonAnim() {};
 	std::string Name;
-	double TicksPerSecond;
-	double Duration;
-	bool isLoop;
+	double TicksPerSecond =0;
+	double Duration =0;
+	bool isLoop =false;
 	std::vector<NodeAnim*> Channels;
 };
 

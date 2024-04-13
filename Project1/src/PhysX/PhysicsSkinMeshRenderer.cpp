@@ -195,36 +195,7 @@ std::shared_ptr<Mesh> PhysicsSkinMeshRenderer::ProcessMesh(aiMesh* mesh, const a
             indices.push_back(face.mIndices[j]);
     }
 
-    if (scene->mNumAnimations > 0)
-    {
 
-        aiAnimation* animation = scene->mAnimations[0];
-
-        std::string animation_name = animation->mName.C_Str();
-        double animation_Duration = animation->mDuration;
-        double tickesPerSecond = animation->mTicksPerSecond;
-
-        for (int i = 0; i < animation->mNumChannels; i++)
-        {
-            aiNodeAnim* assimpNodeAnim = animation->mChannels[i];
-
-            for (int i = 0; i < assimpNodeAnim->mNumPositionKeys; i++)
-            {
-                aiVectorKey& p = assimpNodeAnim->mPositionKeys[i];
-            }
-
-            for (int i = 0; i < assimpNodeAnim->mNumScalingKeys; ++i)
-            {
-                aiVectorKey& s = assimpNodeAnim->mScalingKeys[i];
-            }
-
-            for (int i = 0; i < assimpNodeAnim->mNumRotationKeys; ++i)
-            {
-                aiQuatKey& q = assimpNodeAnim->mRotationKeys[i];
-            }
-        }
-
-    }
 
 
     ExtractBoneWeightForVertices(vertices, mesh, scene);
@@ -299,9 +270,7 @@ void PhysicsSkinMeshRenderer::OnCollisionExit(PhysXObject* otherObject)
 void PhysicsSkinMeshRenderer::Draw(Shader* shader)
 {
 
-    UpdateMeshRendererBones();
-
-
+  
     if (!isVisible)
     {
         return;
@@ -312,15 +281,22 @@ void PhysicsSkinMeshRenderer::Draw(Shader* shader)
         shader->setMat4("model", transform.GetModelMatrix());
         shader->Bind();
 
-        shader->setBool("isBones", true);
+       // shader->setBool("isBones", true);
 
-        std::string boneMatrixUniform;
+        UpdateMeshRendererBones();
 
-        for (int i = 0; i < listOfBoneInfo.size(); i++)
+
+        for ( std::pair<std::string, BoneInfo> boneInfo :  boneInfoMap)
         {
-            boneMatrixUniform = "BoneMatrices[" + std::to_string(i) + "]";
-            shader->setMat4(boneMatrixUniform, listOfBoneInfo[i].finalTransformation);
+            std::string boneMatrixUniform = "BoneMatrices[" + std::to_string(boneInfo.second.id) + "]";
+            shader->setMat4(boneMatrixUniform, boneInfo.second.finalTransformation);
+
         }
+
+       /* for (int i = 0; i < listOfBoneInfo.size(); i++)
+        {
+            std::string boneMatrixUniform = "BoneMatrices[" + std::to_string(i) + "]";
+        }*/
 
     }
 
@@ -338,6 +314,11 @@ void PhysicsSkinMeshRenderer::LoadAnimation(const std::string& animationPath, co
 
     const aiScene* scene = importer.ReadFile(animationPath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
+  /*  if ( scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE )
+    {
+        std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
+        return;
+    }*/
     if (scene->HasAnimations())
     {
         int animationCount = scene->mNumAnimations;
@@ -375,8 +356,8 @@ void PhysicsSkinMeshRenderer::UpdateSkeletonAnimation(float timeFrame)
     {
         std::string nodeName = nodeAnimation->Name;
 
-        std::map<std::string, BoneNode*> ::iterator boneNode = boneNodeMap.find(nodeName);
-        std::map<std::string, BoneInfo> ::iterator boneInfoNode = boneInfoMap.find(nodeName);
+        std::unordered_map<std::string, BoneNode*> ::iterator boneNode = boneNodeMap.find(nodeName);
+        std::unordered_map<std::string, BoneInfo> ::iterator boneInfoNode = boneInfoMap.find(nodeName);
 
         if (boneInfoNode == boneInfoMap.end()) continue;
 
@@ -456,7 +437,7 @@ void PhysicsSkinMeshRenderer::PlayBlendAnimation(const std::string& animationNam
     currentBlendTime = 0;
 }
 
-BoneNode* PhysicsSkinMeshRenderer::GenerateBoneHierarchy(aiNode* ainode, const int depth)
+BoneNode* PhysicsSkinMeshRenderer::GenerateBoneHierarchy(aiNode* ainode)
 {
     BoneNode* node = CreateNode(ainode);
     aiMatrix4x4& transformation = ainode->mTransformation;
@@ -472,7 +453,7 @@ BoneNode* PhysicsSkinMeshRenderer::GenerateBoneHierarchy(aiNode* ainode, const i
 
     for (int i = 0; i < ainode->mNumChildren; ++i)
     {
-        node->children.emplace_back(GenerateBoneHierarchy(ainode->mChildren[i], depth + 1));
+        node->children.emplace_back(GenerateBoneHierarchy(ainode->mChildren[i]));
     }
     return node;
 
@@ -784,10 +765,10 @@ void PhysicsSkinMeshRenderer::CalculateMatrices(BoneNode* boneNode, const glm::m
     glm::mat4 globalTransformation = parentTransformationMatrix * transformationMatrix;
 
 
-    std::map<std::string, BoneInfo> ::iterator boneMapIt = boneInfoMap.find(nodeName);
+    std::unordered_map<std::string, BoneInfo> ::iterator boneMapIt = boneInfoMap.find(nodeName);
     if (boneMapIt != boneInfoMap.end())
     {
-        BoneInfo& boneInfo = listOfBoneInfo[boneMapIt->second.id];
+        BoneInfo& boneInfo = boneMapIt->second;
         boneInfo.finalTransformation = /*model->globalInverseTransformedMatrix **/ globalTransformation * boneInfo.boneOffset;
         boneInfo.globalTransformation = globalTransformation;
     }
@@ -801,4 +782,9 @@ void PhysicsSkinMeshRenderer::CalculateMatrices(BoneNode* boneNode, const glm::m
 
 void PhysicsSkinMeshRenderer::SetDefaultVertexBoneData(Vertex& vertex)
 {
+    for (int i = 0; i < MAX_BONE_INFLUENCE; i++)
+    {
+        vertex.BoneID[i] = -1;
+        vertex.BoneWeight[i] = 0.0f;
+    }
 }
